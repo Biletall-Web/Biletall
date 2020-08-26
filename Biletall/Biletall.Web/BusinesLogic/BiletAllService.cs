@@ -168,7 +168,7 @@ namespace Biletall.Web.BusinesLogic
 
             XmlDocument requestXml = new XmlDocument();
             requestXml.LoadXml(@"<Otobus>
-                                     <FirmaNo>37</FirmaNo>
+                                     <FirmaNo>0</FirmaNo>
                                      <KalkisNoktaID>738</KalkisNoktaID>
                                      <VarisNoktaID>84</VarisNoktaID>
                                      <Tarih>2018-12-09</Tarih>

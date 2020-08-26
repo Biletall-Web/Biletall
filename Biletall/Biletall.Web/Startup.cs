@@ -12,6 +12,7 @@ using Biletall.Web.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Biletall.Web.Controllers;
 
 namespace Biletall.Web
 {
@@ -32,7 +33,7 @@ namespace Biletall.Web
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-            services.AddControllersWithViews();
+            services.AddControllersWithViews(o => o.Filters.Add(typeof(GlobalExceptionFilter)));
             services.AddRazorPages();
         }
 

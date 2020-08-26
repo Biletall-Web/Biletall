@@ -182,7 +182,7 @@
                             <div class="control-sec">
 
                                 @*<a href="javascript:void(0)" class="btn btn-danger">Koltuk Seç</a>*@
-                                <button type="button" class="btn btn-danger" onclick="KoltukBilgisiAl(@sefer.SeferTakipNo)">
+                                <button data-id="@sefer.ID" data-no="@sefer.SeferTakipNo" type="button" class="btn btn-danger select-seat">
                                     Koltuk Seç
                                 </button>
                                 <br />
@@ -194,8 +194,8 @@
                     </div>
 
                 </div>
-                
-                <div class="expand-details expand-details-@sefer.SeferTakipNo" style="display:none">
+
+                <div class="expand-details expand-details-@sefer.ID" style="display:none">
                     <div class="bus-selection-part">
                         <div class="bus-section-header">
                             <div class="gender-wrap">
@@ -222,8 +222,8 @@
                             </div>
                         </div>
                         <div class="bus-select-wrapper">
-
-                            <div class="bus-section-outer">
+                            <div id="bus-@sefer.ID"></div>
+                            <!--<div class="bus-section-outer">
                                 <div class="bus-section" style="width: 750px;">
                                     <div class="otobus-on">
                                         <img src="https://biletall-cdn.mncdn.com/img-v7/desktop/vendor-images/on_yeni.svg">
@@ -235,16 +235,19 @@
                                                 <span>4</span><img src="https://biletall-cdn.mncdn.com/img-v7/ortak/bay_dolu.svg">
                                             </a>
 
-                                            <a class="koltuk available" @*onclick="javascript:koltukSec(0,5,40);"*@ seat="40" koltukindex="54" koltukfiyat="30">
+                                            <a class="koltuk available"-->
+                            @*onclick="javascript:koltukSec(0,5,40);"*@
+                            <!--seat="40" koltukindex="54" koltukfiyat="30">
                                                 <span>40</span>
                                                 <img src="https://biletall-cdn.mncdn.com/img-v7/ortak/ikonlar/bos_koltuk.svg">
                                             </a>
 
                                         </div>
 
-                                    </div><div class="otobus-arka"><img src="https://biletall-cdn.mncdn.com/img-v7/desktop/vendor-images/arka_yeni.svg"></div>
+                                    </div>
+                                    <div class="otobus-arka"><img src="https://biletall-cdn.mncdn.com/img-v7/desktop/vendor-images/arka_yeni.svg"></div>
                                 </div>
-                            </div>
+                            </div>-->
 
                         </div>
                         <div class="bus-section-footer">
@@ -418,7 +421,7 @@
                                         <div class="col-sm-8">@guzergah.VarisYeri</div><div class="col-sm-4">@guzergah.KalkisTarihSaat</div>
 
                                     }
-                                    
+
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -432,25 +435,63 @@
     }
 
 </div>
-<script>
-    function KoltukBilgisiAl(seferReferans) {
-       
-        $.ajax({
-            type: 'GET',
-            url: '/Sefer/KoltukBilgisi?seferReferans=' + seferReferans,
-            success: function (response) {
-                $(".expand-details-" + seferReferans).css('display', 'block');
-                console.log(response.data);
-            },
-            error: function (err) {
-                console.error(err);
-            }
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            $(document).on("click", ".select-seat", function () {
+                var id = $(this).data("id");
+                var no = $(this).data("no");
+                $.ajax({
+                    type: 'GET',
+                    url: '/Sefer/KoltukBilgisi?seferReferans=' + no,
+                    success: function (response) {
+                        console.log(response.data);
+                        $(".expand-details-" + id).css('display', 'block');
+
+                        var dataHtml = "";
+                        $.each(response.data, function (i, item) {
+                            if (item.koltukNo == -1) {
+
+                            }
+                            else {
+
+                                if (item.durum == 0) {
+
+                                    dataHtml += "<div><img src='https://biletall-cdn.mncdn.com/img-v7/ortak/ikonlar/bos_koltuk.svg'></div>"
+                                }
+                                else if (item.durum == 1) {
+                                    dataHtml += "<div>Bayana satılmış</div>"
+                                }
+                            }
+
+                        });
+                        var html = ''
+                            + '<div class="bus-section-outer"> '
+                            + '                                <div class="bus-section" style="width: 750px;"> '
+                            + '                                    <div class="otobus-on"> '
+                            + '                                        <img src="https://biletall-cdn.mncdn.com/img-v7/desktop/vendor-images/on_yeni.svg"> '
+                            + '                                    </div><div class="otobus-orta">'
+                            + '                                        <div class="koltuk-sira"> '
+                            + dataHtml
+                            + ' '
+                            + '                                        </div> '
+                            + '                                    </div><div class="otobus-arka"><img src="https://biletall-cdn.mncdn.com/img-v7/desktop/vendor-images/arka_yeni.svg"></div>'
+                            + '                                </div> '
+                            + '                            </div>';
+
+                        $("#bus-" + id).html(html);
+                    },
+                    error: function (err) {
+                        console.error(err);
+                    }
+                });
+            });
         });
-    }
 
+    </script>
+}
 
-
-</script>
 
 
 
