@@ -18,9 +18,13 @@ namespace Biletall.Web.Models
         public string OtobusKoltukYerlesimTipi { get; set; }
         public List<Guzergah> Guzergahlar { get; set; }
         public string SeferTakipNo { get; set; }
-
+        public string FirmaNo { get; set; }
+        public string KalkisNoktaID { get; set; }
+        public string VarisNoktaID { get; set; }
+        public string Tarih { get; set; }
+        public string HatNo { get; set; }
+        public string Saat { get; set; }
+        public string SeferNo { get; set; }
         
-
-
     }
 }

@@ -252,42 +252,30 @@
                         <div class="bus-section-footer">
                             <div class="upper-slot">
                                 <div class="not-select-msg">
-                                    <p><i class="icon-info-flash"></i><span>Henüz koltuk seçmediniz.</span></p>
+                                    <p><i class="icon-info-flash"></i><span class="msg-hide">Henüz koltuk seçmediniz.</span></p>
                                 </div>
-                                <div class="selected-seat" style="display: none">
-                                    <div class="selected-seat-head"></div>
-                                    <div class="selected-seat-list">
-                                        <div class="col-list-seat">
-                                            <div class="gird-seat-list"></div>
-                                            <div class="gird-seat-list"></div>
-                                            <div class="gird-seat-list"></div>
-                                        </div>
-                                        <div class="col-list-seat">
-                                            <div class="gird-seat-list"></div>
-                                            <div class="gird-seat-list"></div>
-                                            <div class="gird-seat-list"></div>
-                                        </div>
-                                    </div>
-                                </div>
+
                             </div>
                             <div class="middle-slot">
                                 <a href="javascript:void(0)" class="btn total-btn grey deactive_link"><span>Toplam <strong class="fiyat"> </strong><strong> TL</strong></span> </a>
+                                @{var formID = "pForm-" + @sefer.SeferTakipNo;
+                                }
+                                <form id="@formID" asp-controller="Rezervasyon" asp-action="Index" method="post">
+                                    <input type="hidden" name="SeferTakipNo" id="SeferTakipNo" value="@sefer.SeferTakipNo" />
+                                    <input type="hidden" name="Koltuklar" id="Koltuklar" />
+                                    <input type="hidden" name="nereden" id="nereden" value="@nereden" />
+                                    <input type="hidden" name="nereye" id="nereye" value="@nereye" />
+                                    <input type="hidden" name="tarih" id="tarih" value="@tarih" />
+                                    <input type="hidden" name="toplamTutar" id="toplamTutar" />
 
-                                <form id="pForm" asp-controller="Ev" asp-action="Index" method="post">
-                                    <input type="hidden" name="values" id="hidden" />
-
-                                    <input type="submit" value="Devam Et" id="submit" />
+                                    <input class="btn btn-secondary" type="submit" value="Devam Et" id="submit" />
                                 </form>
-                                <button type="button" onclick="sendData(@sefer.ID)">
-                                </button>
-                                <a class="btn btn-danger" href="@Url.Action("Index", "Rezervasyon")">
-                                    <span>Devam Et</span>
-                                </a>
+
                             </div>
                         </div>
                     </div>
                 </div>
-
+                <div id="modal"></div>
                 <div class="modal fade" id="modal-@sefer.ID" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
@@ -442,6 +430,7 @@
                 </div>
             </div>
         </div>
+       
     }
 
 </div>
@@ -454,6 +443,8 @@
         var id;
         var toplamFiyat = 0;
         var tiklanmaSayisi = 0;
+        var tiklananKoltuklar = [];
+        var seferTakipNo;
         var tiklanmaFiyatı = 0;
         var array = [];
         $(document).ready(function () {
@@ -461,7 +452,6 @@
             $(document).on("click", ".select-seat", function () {
                 id = $(this).data("id");
                 var no = $(this).data("no");
-
                 $.ajax({
                     type: 'GET',
                     url: '/Sefer/KoltukBilgisi?seferReferans=' + no,
@@ -480,6 +470,7 @@
                                 a.setAttribute("durum", response.data[i].durum)
                                 a.setAttribute("durumYan", response.data[i].durumYan)
                                 a.setAttribute("koltukFiyatiInternet", response.data[i].koltukFiyatiInternet)
+                                a.setAttribute("seferTakipNo", no)
 
                                 if (response.data[i].koltukNo == "-1" || response.data[i].koltukNo == "-3") {
 
@@ -500,8 +491,8 @@
 
                                         //  a.setAttribute('data-trigger', "focus")
                                         a.setAttribute('data-html', "true")
-                                        a.setAttribute('data-gender', "female")
-                                        a.setAttribute('data-row', "212")
+                                        //a.setAttribute('data-gender', "female")
+                                        //a.setAttribute('data-row', "212")
                                         a.setAttribute('koltukfiyat', response.data[i].koltukFiyatiInternet)
 
                                         var spam = document.createElement('span')
@@ -532,9 +523,6 @@
                                         a.appendChild(spam)
                                         a.appendChild(img)
 
-
-
-
                                     } else if (response.data[i].durum == "2") {
                                         var a = document.createElement('a')
                                         a.classList.add('koltuk')
@@ -547,7 +535,7 @@
                                         spam.innerHTML = response.data[i].koltukNo;
 
                                         var img = document.createElement("img");
-                                        img.setAttribute('src', "https://biletall-cdn.mncdn.com/img-v7/ortak/bay_dolu.svg");
+                                        img.setAttribute('src', "https://biletall-cdn.mncdn.com/img-v7/ortak/bayan_dolu.svg");
 
                                         a.appendChild(spam)
                                         a.appendChild(img)
@@ -670,16 +658,32 @@
                             koltukNo = parseInt(koltukNo);
                             let yanKoltukNo = parseInt(e.children[i].getAttribute("koltukNo"));
 
-
                             if (koltukNo + 1 == yanKoltukNo || koltukNo - 1 == yanKoltukNo || koltukNo == yanKoltukNo) {
 
                                 console.log("Tıklanan koltuk no : " + koltukNo)
                                 console.log("Yan koltuk no      : " + yanKoltukNo)
                                 console.log(e.children[i]);
-
+                                
                                 if (e.children[i].getAttribute("durumYan") == "2") {
-                                    console.log("Erkeğe satılabilir.");
+                                    console.log("Koltuk Yalnızca Erkeğe Satılabilir.");
+                                    if (!alertify.errorAlert) {
+                                        alertify.dialog('errorAlert', function factory() {
+                                            return {
+                                                build: function () {
+                                                    var errorHeader = '<span class="fa fa-times-circle fa-2x" '
+                                                        + 'style="vertical-align:middle;color:#e10000;">'
+                                                        + '</span> Koltuk Seçim Hatası';
+                                                    this.setHeader(errorHeader);
+                                                }
+                                            };
+                                        }, true, 'alert');
+                                    }
+                                   
+                                    alertify
+                                        .errorAlert("Koltuk Yalnızca Erkeğe Satılabilir. ");
                                     toplamFiyat = toplamFiyat - tiklanmaFiyatı;
+                                   
+                                       
                                     return;
                                 } else if (e.children[i].durumYan == "3") {
                                     console.log("Satılamaz.");
@@ -698,7 +702,7 @@
                                     toplamFiyat = toplamFiyat - tiklanmaFiyatı;
                                     return;
                                 } else {
-
+                                    $('.msg-hide').hide();
                                     e.children[i].setAttribute("durumYan", "1");
                                     e.children[i].durumYan = "1";
                                     e.children[i].setAttribute("durum", "1");
@@ -706,6 +710,21 @@
                                     tiklananKoltuk.children("img")[0].setAttribute("src", "https://biletall-cdn.mncdn.com/img-v7/ortak/bayan_dolu.svg");
                                     tiklananKoltuk.addClass('koltuk')
                                     tiklananKoltuk.addClass('unavailable')
+                                    if ( !tiklananKoltuklar.some(r => r == koltukNo)) {
+                                        tiklananKoltuklar.push(koltukNo + "-K");
+                                        console.log("tiklananKoltuklar : " + tiklananKoltuklar)
+                                        seferTakipNo = tiklananKoltuk[0].attributes["seferTakipNo"].nodeValue;
+                                        console.log("seferTakipNo : " + seferTakipNo)
+                                        document.getElementById("Koltuklar").value = tiklananKoltuklar.toString();
+                                        document.getElementById("toplamTutar").value = tiklananKoltuklar.length * tiklananKoltuk[0].attributes["koltukFiyatiInternet"].nodeValue;
+
+                                        var koltukId = "#pForm-" + seferTakipNo + "  input[name=Koltuklar]";
+                                        $(koltukId).val(tiklananKoltuklar.toString());
+                                        var koltukId = "#pForm-" + seferTakipNo + "  input[name=toplamTutar]";
+                                        $(koltukId).val(tiklananKoltuklar.length * tiklananKoltuk[0].attributes["koltukFiyatiInternet"].nodeValue);
+                                    }
+
+
                                 }
                             }
                         }
@@ -744,9 +763,25 @@
                                 console.log("Tıklanan koltuk no : " + koltukNo)
                                 console.log("Yan koltuk no      : " + yanKoltukNo)
                                 console.log(e.children[i]);
-
+                          
                                 if (e.children[i].getAttribute("durumYan") == "1") {
-                                    console.log("Erkeğe satılabilir.");
+                                    console.log("Koltuk Yalnızca Bayana Satılabilir.");
+                                    
+                                    if (!alertify.errorAlert) {
+                                  
+                                        alertify.dialog('errorAlert', function factory() {
+                                            return {
+                                                build: function () {
+                                                    var errorHeader = '<span class="fa fa-times-circle fa-2x" '
+                                                        + 'style="vertical-align:middle;color:#e10000;">'
+                                                        + '</span> Koltuk Seçim Hatası';
+                                                    this.setHeader(errorHeader);
+                                                }
+                                            };
+                                        }, true, 'alert');
+                                    }
+                                    alertify
+                                        .errorAlert("Koltuk Yalnızca Bayana Satılabilir. ");
                                     toplamFiyat = toplamFiyat - tiklanmaFiyatı;
                                     return;
                                 } else if (e.children[i].durumYan == "3") {
@@ -766,19 +801,32 @@
                                     toplamFiyat = toplamFiyat - tiklanmaFiyatı;
                                     return;
                                 } else {
-
+                                    $('.msg-hide').hide();
                                     e.children[i].setAttribute("durumYan", "2");
                                     e.children[i].durumYan = "2";
                                     e.children[i].setAttribute("durum", "2");
                                     e.children[i].durum = "2";
                                     tiklananKoltuk.children("img")[0].setAttribute("src", "https://biletall-cdn.mncdn.com/img-v7/ortak/bay_dolu.svg");
-                                    tiklananKoltuk.addClass('koltuk')
-                                    tiklananKoltuk.addClass("unavailable")
+                                    tiklananKoltuk.addClass('koltuk');
+                                    tiklananKoltuk.addClass('unavailable')
+                                    if (!tiklananKoltuklar.some(r => r == koltukNo)) {
+                                        tiklananKoltuklar.push(koltukNo + "-E");
+                                        console.log("tiklananKoltuklar : " + tiklananKoltuklar)
+                                        seferTakipNo = tiklananKoltuk[0].attributes["seferTakipNo"].nodeValue;
+                                        console.log("seferTakipNo : " + seferTakipNo)
+                                        document.getElementById("Koltuklar").value = tiklananKoltuklar.toString();
+                                        document.getElementById("toplamTutar").value = tiklananKoltuklar.length * tiklananKoltuk[0].attributes["koltukFiyatiInternet"].nodeValue;
+                                        var koltukId = "#pForm-" + seferTakipNo + "  input[name=Koltuklar]";
+                                        $(koltukId).val(tiklananKoltuklar.toString());
+                                        var koltukId = "#pForm-" + seferTakipNo + "  input[name=toplamTutar]";
+                                        $(koltukId).val(tiklananKoltuklar.length * tiklananKoltuk[0].attributes["koltukFiyatiInternet"].nodeValue);
+                                    }
+                                    }
 
                                 }
                             }
                         }
-                    }
+                    
 
 
                 });
@@ -795,24 +843,6 @@
             $('[data-toggle="popover"]').popover({
 
             })
-        }
-        function sendData(seferId) {
-            console.log(array);
-
-            $.ajax({
-                url: '/Home/Deneme',
-                type: 'POST',
-              
-                data: { seferId: seferId, selectedData: array },
-                success: function (gelenveri) {
-                    console.log(gelenveri)
-                },
-                error: function (hata) {
-                    alertify.error('Erişim Sağlanamadı.');
-
-                }
-            });
-           
         }
     </script>
 }

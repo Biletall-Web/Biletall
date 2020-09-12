@@ -13,5 +13,6 @@ namespace Biletall.Web.Data.Entity
         public string Tc { get; set; }
         public string  Mail { get; set; }
         public string PhoneNumber { get; set; }
+        public string PNR { get; set; }
     }
 }

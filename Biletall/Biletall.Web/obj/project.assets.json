@@ -10693,11 +10693,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Celal\\Desktop\\celal\\Biletall\\Biletall\\Biletall.Web\\Biletall.Web.csproj",
+      "projectUniqueName": "C:\\Users\\Celal\\Desktop\\Web-Biletall\\Web-Biletall\\Biletall.Web\\Biletall.Web.csproj",
       "projectName": "Biletall.Web",
-      "projectPath": "C:\\Users\\Celal\\Desktop\\celal\\Biletall\\Biletall\\Biletall.Web\\Biletall.Web.csproj",
+      "projectPath": "C:\\Users\\Celal\\Desktop\\Web-Biletall\\Web-Biletall\\Biletall.Web\\Biletall.Web.csproj",
       "packagesPath": "C:\\Users\\Celal\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Celal\\Desktop\\celal\\Biletall\\Biletall\\Biletall.Web\\obj\\",
+      "outputPath": "C:\\Users\\Celal\\Desktop\\Web-Biletall\\Web-Biletall\\Biletall.Web\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Celal\\AppData\\Roaming\\NuGet\\NuGet.Config",

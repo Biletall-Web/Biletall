@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Biletall.Web.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200901164606_NewMigration")]
+    [Migration("20200911105319_NewMigration")]
     partial class NewMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,6 +32,9 @@ namespace Biletall.Web.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PNR")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")

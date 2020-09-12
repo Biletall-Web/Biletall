@@ -56,7 +56,8 @@ namespace Biletall.Web.Migrations
                     Surname = table.Column<string>(nullable: true),
                     Tc = table.Column<string>(nullable: true),
                     Mail = table.Column<string>(nullable: true),
-                    PhoneNumber = table.Column<string>(nullable: true)
+                    PhoneNumber = table.Column<string>(nullable: true),
+                    PNR = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

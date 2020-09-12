@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "zK2JAyzNwrinwE6KGvGGYRZVuW/qE5B5KCoWD9C3K7g3G4kLoTn7EKWF94ZcAWJIINYFX/dDN4smx6LqfO7pMA==",
+  "dgSpecHash": "TxTGHaLhlWmcq4iz7TmjT0DbSCRmX/vaAq/D3V1sHzylAJLiQ59IvrCO6n/o499twIR9Tr4GaNkYs2dH6iWl2Q==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Celal\\Desktop\\celal\\Biletall\\Biletall\\Biletall.Web\\Biletall.Web.csproj",
+  "projectFilePath": "C:\\Users\\Celal\\Desktop\\Web-Biletall\\Web-Biletall\\Biletall.Web\\Biletall.Web.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Celal\\.nuget\\packages\\microsoft.aspnetcore.cors\\2.2.0\\microsoft.aspnetcore.cors.2.2.0.nupkg.sha512",
     "C:\\Users\\Celal\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\3.1.7\\microsoft.aspnetcore.cryptography.internal.3.1.7.nupkg.sha512",

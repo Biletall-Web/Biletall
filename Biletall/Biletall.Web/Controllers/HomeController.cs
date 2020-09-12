@@ -9,6 +9,8 @@ using ServiceReference1;
 using Biletall.Web.BusinesLogic;
 using System.Xml.Schema;
 using System.Linq;
+using Biletall.Web.Data.Entity;
+using Biletall.Web.Data;
 
 namespace Biletall.Web.Controllers
 {
@@ -16,14 +18,16 @@ namespace Biletall.Web.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        public HomeController(ILogger<HomeController> logger)
+        private readonly ApplicationDbContext _context;
+      
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
         public IActionResult Index()
         {
-
             var karaNoktalari = BiletAllService.KaraNoktalariGetir();
             ViewBag.Cities = karaNoktalari;
             return View();
@@ -83,22 +87,7 @@ namespace Biletall.Web.Controllers
             return View("Seferler");
 
         }
-        [HttpPost]
-        public IActionResult Deneme(string seferId, List<PostData> selectedData)
-        {
-            var seferler2 = TempData["Seferler"];
-            TempData["Seferler2"] = seferler2;
-            
-            
-            
-            MusteriViewModel model = new MusteriViewModel
-            {
-                SeferId = seferId,
-                SelectedData = selectedData
-            };
-            TempData["values"] = model;
-            return RedirectToAction("Index", "Rezervasyon");
-        }
+        
         public IActionResult Privacy()
         {
             return View();
