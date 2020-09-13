@@ -11,17 +11,25 @@ namespace Biletall.Web.BusinesLogic
 {
     public class BiletAllService
     {
-        public static List<KaraNokta> KaraNoktalariGetir()
+        public static string yetki = "<Kullanici><Adi>" + "stajyerWS" + "</Adi><Sifre>" + "2324423WSs099"
+   + "</Sifre></Kullanici>";
+
+        public static XmlIsletRequestBody ServistenCevapGetir()
         {
             XmlIsletRequestBody xirb = new XmlIsletRequestBody();
             XmlDocument xml = new XmlDocument();
-            xml.LoadXml("<Kullanici><Adi>" + "stajyerWS" + "</Adi><Sifre>" + "2324423WSs099"
-+ "</Sifre></Kullanici>");
+            xml.LoadXml(yetki);
             xirb.xmlYetki = xml.DocumentElement;
+            return xirb;
+        }
+        public static List<KaraNokta> KaraNoktalariGetir()
+        {
+            
+            XmlIsletRequestBody isletRequestBody = ServistenCevapGetir();
             XmlDocument requestXml = new XmlDocument();
             requestXml.LoadXml(@"<KaraNoktaGetirKomut/>");
-            xirb.xmlIslem = requestXml.DocumentElement;
-            var service = new ServiceSoapClient(ServiceSoapClient.EndpointConfiguration.ServiceSoap).XmlIslet(xirb.xmlIslem, xirb.xmlYetki);
+            isletRequestBody.xmlIslem = requestXml.DocumentElement;
+            var service = new ServiceSoapClient(ServiceSoapClient.EndpointConfiguration.ServiceSoap).XmlIslet(isletRequestBody.xmlIslem, isletRequestBody.xmlYetki);
             List<KaraNokta> karaNoktaList = new List<KaraNokta>();
             XmlNodeList xnList = service.SelectNodes("/KaraNokta");
             foreach (XmlNode xn in xnList)
@@ -43,21 +51,18 @@ namespace Biletall.Web.BusinesLogic
             }
             return karaNoktaList;
         }
-        
+
         public static List<Sefer> SeferleriGetir(string nereden, string nereye, DateTime tarih)
         {
-            XmlIsletRequestBody xirb = new XmlIsletRequestBody();
-            XmlDocument xml = new XmlDocument();
-            xml.LoadXml("<Kullanici><Adi>" + "stajyerWS" + "</Adi><Sifre>" + "2324423WSs099"
-+ "</Sifre></Kullanici>");
-            xirb.xmlYetki = xml.DocumentElement;
+
+            XmlIsletRequestBody isletRequestBody = ServistenCevapGetir();
             XmlDocument requestXml = new XmlDocument();
             requestXml.LoadXml(@"<Sefer><FirmaNo>0</FirmaNo><KalkisNoktaID>" + nereden + "</KalkisNoktaID><VarisNoktaID>" + nereye +
                 "</VarisNoktaID><Tarih>" + tarih.ToString("yyyy-MM-dd") + "</Tarih><AraNoktaGelsin>1</AraNoktaGelsin><IslemTipi>0</IslemTipi><YolcuSayisi>1</YolcuSayisi><Ip>127.0.0.1</Ip></Sefer>");
-            xirb.xmlIslem = requestXml.DocumentElement;
+            isletRequestBody.xmlIslem = requestXml.DocumentElement;
             List<Sefer> seferList = new List<Sefer>();
 
-            var service = new ServiceSoapClient(ServiceSoapClient.EndpointConfiguration.ServiceSoap).XmlIslet(xirb.xmlIslem, xirb.xmlYetki);
+            var service = new ServiceSoapClient(ServiceSoapClient.EndpointConfiguration.ServiceSoap).XmlIslet(isletRequestBody.xmlIslem, isletRequestBody.xmlYetki);
             try
             {
                 XmlNodeList xnList = service.SelectNodes("/Table");
@@ -100,18 +105,15 @@ namespace Biletall.Web.BusinesLogic
 
         public static List<Guzergah> GuzergahlariGetir(string nereden, string nereye, DateTime tarih, string seferTakipNo)
         {
-            XmlIsletRequestBody xirb = new XmlIsletRequestBody();
-            XmlDocument xml = new XmlDocument();
-            xml.LoadXml("<Kullanici><Adi>" + "stajyerWS" + "</Adi><Sifre>" + "2324423WSs099"
-+ "</Sifre></Kullanici>");
-            xirb.xmlYetki = xml.DocumentElement;
+
+            XmlIsletRequestBody isletRequestBody = ServistenCevapGetir();
             XmlDocument requestXml = new XmlDocument();
             requestXml.LoadXml(@"<Hat><FirmaNo>37</FirmaNo><HatNo>1</HatNo><KalkisNoktaID>" + nereden + "</KalkisNoktaID><VarisNoktaID>" + nereye + "</VarisNoktaID><BilgiIslemAdi>GuzergahVerSaatli</BilgiIslemAdi>" +
                 "<SeferTakipNo>" + seferTakipNo + "</SeferTakipNo><Tarih>" + tarih.ToString("yyyy-MM-dd") + "</Tarih></Hat>");
-            xirb.xmlIslem = requestXml.DocumentElement;
+            isletRequestBody.xmlIslem = requestXml.DocumentElement;
 
             List<Guzergah> guzergahList = new List<Guzergah>();
-            var service = new ServiceSoapClient(ServiceSoapClient.EndpointConfiguration.ServiceSoap).XmlIslet(xirb.xmlIslem, xirb.xmlYetki);
+            var service = new ServiceSoapClient(ServiceSoapClient.EndpointConfiguration.ServiceSoap).XmlIslet(isletRequestBody.xmlIslem, isletRequestBody.xmlYetki);
             try
             {
                 XmlNodeList xnList = service.SelectNodes("/Table1");
@@ -143,11 +145,7 @@ namespace Biletall.Web.BusinesLogic
         public static List<Koltuk> KoltukBilgisiAl(string seferReferans)
         {
             List<Koltuk> koltuklar = new List<Koltuk>();
-            XmlIsletRequestBody isletRequestBody = new XmlIsletRequestBody();
-            XmlDocument xml = new XmlDocument();
-            xml.LoadXml("<Kullanici><Adi>stajyerWS</Adi><Sifre>2324423WSs099</Sifre></Kullanici>");
-            isletRequestBody.xmlYetki = xml.DocumentElement;
-
+            XmlIsletRequestBody isletRequestBody = ServistenCevapGetir();
             XmlDocument requestXml = new XmlDocument();
             requestXml.LoadXml(@"<Otobus>
                                      <FirmaNo>37</FirmaNo>
@@ -179,39 +177,34 @@ namespace Biletall.Web.BusinesLogic
             return koltuklar;
         }
 
-        public static string Rezervasyon(Sefer sefer,string cinsiyet,string ad,string soyad,string tc,string koltukNo,string tel,string mail)
+        public static string Rezervasyon(Sefer sefer, string cinsiyet, string ad, string soyad, string tc, string koltukNo, string tel, string mail)
         {
-
-            XmlIsletRequestBody isletRequestBody = new XmlIsletRequestBody();
-            XmlDocument xml = new XmlDocument();
-            xml.LoadXml("<Kullanici><Adi>stajyerWS</Adi><Sifre>2324423WSs099</Sifre></Kullanici>");
-            isletRequestBody.xmlYetki = xml.DocumentElement;
-
+            XmlIsletRequestBody isletRequestBody = ServistenCevapGetir();
             XmlDocument requestXml = new XmlDocument();
             string gecerliTarih = sefer.Tarih.Substring(0, 10);
             requestXml.LoadXml(@"<IslemRezervasyon>
-                                     <FirmaNo>" + sefer.FirmaNo + "</FirmaNo><KalkisNoktaID>"+ sefer.KalkisNoktaID+ "</KalkisNoktaID>"+
-                                   "<VarisNoktaID>"+sefer.VarisNoktaID+"</VarisNoktaID>"+
-                                   "<Tarih>"+ gecerliTarih + "</Tarih>"+
-                                   "<Saat>"+sefer.Saat+"</Saat>"+
-                                   "<HatNo>"+sefer.HatNo+"</HatNo>"+
-                                   "<SeferNo>"+sefer.SeferNo+"</SeferNo>"+
-                                   "<KalkisTerminalAdiSaatleri></KalkisTerminalAdiSaatleri>"+
-                                   "<KoltukNo1>"+ koltukNo + "</KoltukNo1>"+
-                                   "<Adi1>"+ad+"</Adi1>"+
-                                   "<Soyadi1>"+soyad+"</Soyadi1>"+
-                                   "<TcKimlikNo1>"+tc+"</TcKimlikNo1>"+
-                                   "<ServisYeriKalkis1></ServisYeriKalkis1>"+
-                                   "<TelefonNo>"+tel+"</TelefonNo>"+
-                                   "<Cinsiyet>"+cinsiyet+"</Cinsiyet>"+
-                                   "<YolcuSayisi>1</YolcuSayisi>"+
-                                  "<FirmaAciklama></FirmaAciklama>"+
-                                   "<HatirlaticiNot></HatirlaticiNot>"+
-                                  "<WebYolcu>"+
-                                   "<WebUyeNo>0</WebUyeNo>"+
-                                   "<Ip>0.0.0.0</Ip>"+
-                                   "<Email>"+mail+"</Email>"+
-                                   "</WebYolcu>"+
+                                     <FirmaNo>" + sefer.FirmaNo + "</FirmaNo><KalkisNoktaID>" + sefer.KalkisNoktaID + "</KalkisNoktaID>" +
+                                   "<VarisNoktaID>" + sefer.VarisNoktaID + "</VarisNoktaID>" +
+                                   "<Tarih>" + gecerliTarih + "</Tarih>" +
+                                   "<Saat>" + sefer.Saat + "</Saat>" +
+                                   "<HatNo>" + sefer.HatNo + "</HatNo>" +
+                                   "<SeferNo>" + sefer.SeferNo + "</SeferNo>" +
+                                   "<KalkisTerminalAdiSaatleri></KalkisTerminalAdiSaatleri>" +
+                                   "<KoltukNo1>" + koltukNo + "</KoltukNo1>" +
+                                   "<Adi1>" + ad + "</Adi1>" +
+                                   "<Soyadi1>" + soyad + "</Soyadi1>" +
+                                   "<TcKimlikNo1>" + tc + "</TcKimlikNo1>" +
+                                   "<ServisYeriKalkis1></ServisYeriKalkis1>" +
+                                   "<TelefonNo>" + tel + "</TelefonNo>" +
+                                   "<Cinsiyet>" + cinsiyet + "</Cinsiyet>" +
+                                   "<YolcuSayisi>1</YolcuSayisi>" +
+                                  "<FirmaAciklama></FirmaAciklama>" +
+                                   "<HatirlaticiNot></HatirlaticiNot>" +
+                                  "<WebYolcu>" +
+                                   "<WebUyeNo>0</WebUyeNo>" +
+                                   "<Ip>0.0.0.0</Ip>" +
+                                   "<Email>" + mail + "</Email>" +
+                                   "</WebYolcu>" +
                                   "</IslemRezervasyon>");
             isletRequestBody.xmlIslem = requestXml.DocumentElement;
             var service = new ServiceSoapClient(ServiceSoapClient.EndpointConfiguration.ServiceSoap)

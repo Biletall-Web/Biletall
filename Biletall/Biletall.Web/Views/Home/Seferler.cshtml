@@ -456,8 +456,8 @@
                     type: 'GET',
                     url: '/Sefer/KoltukBilgisi?seferReferans=' + no,
                     success: function (response) {
-
-                        $(".expand-details-" + id).css('display', 'block');
+                        
+                        $(".expand-details-" + id).toggle();
                         console.log(response.data);
 
                         for (var i = 0; i < response.data.length; i++) {
