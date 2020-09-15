@@ -900,12 +900,12 @@ C:\Users\elber\Desktop\Web-Biletall-master\Biletall.Web\obj\Debug\netcoreapp3.1\
 C:\Users\elber\Desktop\Web-Biletall-master\Biletall.Web\obj\Debug\netcoreapp3.1\Razor\Views\Ev\Index.cshtml.g.cs
 C:\Users\elber\Desktop\Web-Biletall-master\Biletall.Web\obj\Debug\netcoreapp3.1\Razor\Views\Ev\PNRSonuc.cshtml.g.cs
 C:\Users\Celal\Desktop\Web-Biletall\Web-Biletall\Biletall.Web\bin\Debug\netcoreapp3.1\appsettings.Development.json
+C:\Users\Celal\Desktop\Web-Biletall\Web-Biletall\Biletall.Web\bin\Debug\netcoreapp3.1\appsettings.json
 C:\Users\Celal\Desktop\Web-Biletall\Web-Biletall\Biletall.Web\bin\Debug\netcoreapp3.1\Connected Services\ServiceReference1\ConnectedService.json
 C:\Users\Celal\Desktop\Web-Biletall\Web-Biletall\Biletall.Web\bin\Debug\netcoreapp3.1\libman.json
 C:\Users\Celal\Desktop\Web-Biletall\Web-Biletall\Biletall.Web\bin\Debug\netcoreapp3.1\Properties\launchSettings.json
 C:\Users\Celal\Desktop\Web-Biletall\Web-Biletall\Biletall.Web\bin\Debug\netcoreapp3.1\Properties\serviceDependencies.json
 C:\Users\Celal\Desktop\Web-Biletall\Web-Biletall\Biletall.Web\bin\Debug\netcoreapp3.1\Properties\serviceDependencies.local.json
-C:\Users\Celal\Desktop\Web-Biletall\Web-Biletall\Biletall.Web\bin\Debug\netcoreapp3.1\appsettings.json
 C:\Users\Celal\Desktop\Web-Biletall\Web-Biletall\Biletall.Web\bin\Debug\netcoreapp3.1\Biletall.Web.StaticWebAssets.xml
 C:\Users\Celal\Desktop\Web-Biletall\Web-Biletall\Biletall.Web\bin\Debug\netcoreapp3.1\Biletall.Web.exe
 C:\Users\Celal\Desktop\Web-Biletall\Web-Biletall\Biletall.Web\bin\Debug\netcoreapp3.1\Biletall.Web.deps.json
@@ -1081,6 +1081,8 @@ C:\Users\Celal\Desktop\Web-Biletall\Web-Biletall\Biletall.Web\obj\Debug\netcorea
 C:\Users\Celal\Desktop\Web-Biletall\Web-Biletall\Biletall.Web\obj\Debug\netcoreapp3.1\Razor\Views\Home\Index.cshtml.g.cs
 C:\Users\Celal\Desktop\Web-Biletall\Web-Biletall\Biletall.Web\obj\Debug\netcoreapp3.1\Razor\Views\Home\Privacy.cshtml.g.cs
 C:\Users\Celal\Desktop\Web-Biletall\Web-Biletall\Biletall.Web\obj\Debug\netcoreapp3.1\Razor\Views\Home\Seferler.cshtml.g.cs
+C:\Users\Celal\Desktop\Web-Biletall\Web-Biletall\Biletall.Web\obj\Debug\netcoreapp3.1\Razor\Views\Rezervasyon\Index.cshtml.g.cs
+C:\Users\Celal\Desktop\Web-Biletall\Web-Biletall\Biletall.Web\obj\Debug\netcoreapp3.1\Razor\Views\Rezervasyon\PNRSonuc.cshtml.g.cs
 C:\Users\Celal\Desktop\Web-Biletall\Web-Biletall\Biletall.Web\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Error.cshtml.g.cs
 C:\Users\Celal\Desktop\Web-Biletall\Web-Biletall\Biletall.Web\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Layout.cshtml.g.cs
 C:\Users\Celal\Desktop\Web-Biletall\Web-Biletall\Biletall.Web\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_LoginPartial.cshtml.g.cs
@@ -1096,5 +1098,5 @@ C:\Users\Celal\Desktop\Web-Biletall\Web-Biletall\Biletall.Web\obj\Debug\netcorea
 C:\Users\Celal\Desktop\Web-Biletall\Web-Biletall\Biletall.Web\obj\Debug\netcoreapp3.1\Biletall.Web.dll
 C:\Users\Celal\Desktop\Web-Biletall\Web-Biletall\Biletall.Web\obj\Debug\netcoreapp3.1\Biletall.Web.pdb
 C:\Users\Celal\Desktop\Web-Biletall\Web-Biletall\Biletall.Web\obj\Debug\netcoreapp3.1\Biletall.Web.genruntimeconfig.cache
-C:\Users\Celal\Desktop\Web-Biletall\Web-Biletall\Biletall.Web\obj\Debug\netcoreapp3.1\Razor\Views\Rezervasyon\Index.cshtml.g.cs
-C:\Users\Celal\Desktop\Web-Biletall\Web-Biletall\Biletall.Web\obj\Debug\netcoreapp3.1\Razor\Views\Rezervasyon\PNRSonuc.cshtml.g.cs
+C:\Users\Celal\Desktop\Web-Biletall\Web-Biletall\Biletall.Web\obj\Debug\netcoreapp3.1\Razor\Views\Rezervasyon\PnrBul.cshtml.g.cs
+C:\Users\Celal\Desktop\Web-Biletall\Web-Biletall\Biletall.Web\obj\Debug\netcoreapp3.1\Razor\Views\Rezervasyon\PnrGetir.cshtml.g.cs

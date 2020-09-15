@@ -270,6 +270,7 @@
 
                                     <input class="btn btn-secondary" type="submit" value="Devam Et" id="submit" />
                                 </form>
+                           
 
                             </div>
                         </div>
@@ -456,7 +457,7 @@
                     type: 'GET',
                     url: '/Sefer/KoltukBilgisi?seferReferans=' + no,
                     success: function (response) {
-                        
+                        $(".expand-details-" + id +" .koltuk-sira").empty();
                         $(".expand-details-" + id).toggle();
                         console.log(response.data);
 

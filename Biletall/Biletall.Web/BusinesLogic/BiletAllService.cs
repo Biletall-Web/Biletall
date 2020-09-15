@@ -14,24 +14,25 @@ namespace Biletall.Web.BusinesLogic
         public static string yetki = "<Kullanici><Adi>" + "stajyerWS" + "</Adi><Sifre>" + "2324423WSs099"
    + "</Sifre></Kullanici>";
 
-        public static XmlIsletRequestBody ServistenCevapGetir()
+        public static XmlElement ServistenCevapGetir(string istekXml)
         {
             XmlIsletRequestBody xirb = new XmlIsletRequestBody();
             XmlDocument xml = new XmlDocument();
             xml.LoadXml(yetki);
             xirb.xmlYetki = xml.DocumentElement;
-            return xirb;
+            XmlDocument requestXml = new XmlDocument();
+            requestXml.LoadXml(istekXml);
+            xirb.xmlIslem = requestXml.DocumentElement;
+            XmlElement sonuc = new ServiceSoapClient(ServiceSoapClient.EndpointConfiguration.ServiceSoap).XmlIslet(xirb.xmlIslem, xirb.xmlYetki);
+            return sonuc;
         }
+
+
         public static List<KaraNokta> KaraNoktalariGetir()
         {
-            
-            XmlIsletRequestBody isletRequestBody = ServistenCevapGetir();
-            XmlDocument requestXml = new XmlDocument();
-            requestXml.LoadXml(@"<KaraNoktaGetirKomut/>");
-            isletRequestBody.xmlIslem = requestXml.DocumentElement;
-            var service = new ServiceSoapClient(ServiceSoapClient.EndpointConfiguration.ServiceSoap).XmlIslet(isletRequestBody.xmlIslem, isletRequestBody.xmlYetki);
+            var sonuc = ServistenCevapGetir(@"<KaraNoktaGetirKomut/>");
             List<KaraNokta> karaNoktaList = new List<KaraNokta>();
-            XmlNodeList xnList = service.SelectNodes("/KaraNokta");
+            XmlNodeList xnList = sonuc.SelectNodes("/KaraNokta");
             foreach (XmlNode xn in xnList)
             {
                 KaraNokta karaNokta = new KaraNokta
@@ -54,18 +55,12 @@ namespace Biletall.Web.BusinesLogic
 
         public static List<Sefer> SeferleriGetir(string nereden, string nereye, DateTime tarih)
         {
-
-            XmlIsletRequestBody isletRequestBody = ServistenCevapGetir();
-            XmlDocument requestXml = new XmlDocument();
-            requestXml.LoadXml(@"<Sefer><FirmaNo>0</FirmaNo><KalkisNoktaID>" + nereden + "</KalkisNoktaID><VarisNoktaID>" + nereye +
-                "</VarisNoktaID><Tarih>" + tarih.ToString("yyyy-MM-dd") + "</Tarih><AraNoktaGelsin>1</AraNoktaGelsin><IslemTipi>0</IslemTipi><YolcuSayisi>1</YolcuSayisi><Ip>127.0.0.1</Ip></Sefer>");
-            isletRequestBody.xmlIslem = requestXml.DocumentElement;
             List<Sefer> seferList = new List<Sefer>();
-
-            var service = new ServiceSoapClient(ServiceSoapClient.EndpointConfiguration.ServiceSoap).XmlIslet(isletRequestBody.xmlIslem, isletRequestBody.xmlYetki);
+            var sonuc = ServistenCevapGetir(@"<Sefer><FirmaNo>0</FirmaNo><KalkisNoktaID>" + nereden + "</KalkisNoktaID><VarisNoktaID>" + nereye +
+                "</VarisNoktaID><Tarih>" + tarih.ToString("yyyy-MM-dd") + "</Tarih><AraNoktaGelsin>1</AraNoktaGelsin><IslemTipi>0</IslemTipi><YolcuSayisi>1</YolcuSayisi><Ip>127.0.0.1</Ip></Sefer>");
             try
             {
-                XmlNodeList xnList = service.SelectNodes("/Table");
+                XmlNodeList xnList = sonuc.SelectNodes("/Table");
                 foreach (XmlNode xn in xnList)
                 {
                     Sefer sefer = new Sefer
@@ -98,25 +93,19 @@ namespace Biletall.Web.BusinesLogic
             }
             catch (Exception)
             {
-                var sonuc = ((System.Xml.XmlCharacterData)service.SelectNodes("/Sonuc")[0].FirstChild).Data.ToString() != "false";
+                var sonucAl = ((System.Xml.XmlCharacterData)sonuc.SelectNodes("/Sonuc")[0].FirstChild).Data.ToString() != "false";
                 return seferList;
             }
         }
 
         public static List<Guzergah> GuzergahlariGetir(string nereden, string nereye, DateTime tarih, string seferTakipNo)
         {
-
-            XmlIsletRequestBody isletRequestBody = ServistenCevapGetir();
-            XmlDocument requestXml = new XmlDocument();
-            requestXml.LoadXml(@"<Hat><FirmaNo>37</FirmaNo><HatNo>1</HatNo><KalkisNoktaID>" + nereden + "</KalkisNoktaID><VarisNoktaID>" + nereye + "</VarisNoktaID><BilgiIslemAdi>GuzergahVerSaatli</BilgiIslemAdi>" +
-                "<SeferTakipNo>" + seferTakipNo + "</SeferTakipNo><Tarih>" + tarih.ToString("yyyy-MM-dd") + "</Tarih></Hat>");
-            isletRequestBody.xmlIslem = requestXml.DocumentElement;
-
             List<Guzergah> guzergahList = new List<Guzergah>();
-            var service = new ServiceSoapClient(ServiceSoapClient.EndpointConfiguration.ServiceSoap).XmlIslet(isletRequestBody.xmlIslem, isletRequestBody.xmlYetki);
+            var sonuc = ServistenCevapGetir(@"<Hat><FirmaNo>37</FirmaNo><HatNo>1</HatNo><KalkisNoktaID>" + nereden + "</KalkisNoktaID><VarisNoktaID>" + nereye + "</VarisNoktaID><BilgiIslemAdi>GuzergahVerSaatli</BilgiIslemAdi>" +
+                "<SeferTakipNo>" + seferTakipNo + "</SeferTakipNo><Tarih>" + tarih.ToString("yyyy-MM-dd") + "</Tarih></Hat>");
             try
             {
-                XmlNodeList xnList = service.SelectNodes("/Table1");
+                XmlNodeList xnList = sonuc.SelectNodes("/Table1");
                 foreach (XmlNode xn in xnList)
                 {
                     Guzergah guzergah = new Guzergah
@@ -145,9 +134,7 @@ namespace Biletall.Web.BusinesLogic
         public static List<Koltuk> KoltukBilgisiAl(string seferReferans)
         {
             List<Koltuk> koltuklar = new List<Koltuk>();
-            XmlIsletRequestBody isletRequestBody = ServistenCevapGetir();
-            XmlDocument requestXml = new XmlDocument();
-            requestXml.LoadXml(@"<Otobus>
+            var sonuc = ServistenCevapGetir(@"<Otobus>
                                      <FirmaNo>37</FirmaNo>
                                      <KalkisNoktaID>738</KalkisNoktaID>
                                      <VarisNoktaID>84</VarisNoktaID>
@@ -158,11 +145,8 @@ namespace Biletall.Web.BusinesLogic
                                      <SeferTakipNo>" + seferReferans + @"</SeferTakipNo>
                                      <Ip>127.0.0.1</Ip>
                                   </Otobus>");
-            isletRequestBody.xmlIslem = requestXml.DocumentElement;
 
-            var service = new ServiceSoapClient(ServiceSoapClient.EndpointConfiguration.ServiceSoap)
-                .XmlIslet(isletRequestBody.xmlIslem, isletRequestBody.xmlYetki);
-            XmlNodeList nodeKoltukList = service.SelectNodes("/Koltuk");
+            XmlNodeList nodeKoltukList = sonuc.SelectNodes("/Koltuk");
             foreach (XmlNode nodeKoltuk in nodeKoltukList)
             {
                 koltuklar.Add(new Koltuk
@@ -179,10 +163,8 @@ namespace Biletall.Web.BusinesLogic
 
         public static string Rezervasyon(Sefer sefer, string cinsiyet, string ad, string soyad, string tc, string koltukNo, string tel, string mail)
         {
-            XmlIsletRequestBody isletRequestBody = ServistenCevapGetir();
-            XmlDocument requestXml = new XmlDocument();
             string gecerliTarih = sefer.Tarih.Substring(0, 10);
-            requestXml.LoadXml(@"<IslemRezervasyon>
+            var sonuc = ServistenCevapGetir(@"<IslemRezervasyon>
                                      <FirmaNo>" + sefer.FirmaNo + "</FirmaNo><KalkisNoktaID>" + sefer.KalkisNoktaID + "</KalkisNoktaID>" +
                                    "<VarisNoktaID>" + sefer.VarisNoktaID + "</VarisNoktaID>" +
                                    "<Tarih>" + gecerliTarih + "</Tarih>" +
@@ -206,10 +188,7 @@ namespace Biletall.Web.BusinesLogic
                                    "<Email>" + mail + "</Email>" +
                                    "</WebYolcu>" +
                                   "</IslemRezervasyon>");
-            isletRequestBody.xmlIslem = requestXml.DocumentElement;
-            var service = new ServiceSoapClient(ServiceSoapClient.EndpointConfiguration.ServiceSoap)
-               .XmlIslet(isletRequestBody.xmlIslem, isletRequestBody.xmlYetki);
-            return service["PNR"].InnerText;
+            return sonuc["PNR"].InnerText;
         }
 
     }

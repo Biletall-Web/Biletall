@@ -57,7 +57,16 @@ namespace Biletall.Web.Migrations
                     Tc = table.Column<string>(nullable: true),
                     Mail = table.Column<string>(nullable: true),
                     PhoneNumber = table.Column<string>(nullable: true),
-                    PNR = table.Column<string>(nullable: true)
+                    PNR = table.Column<string>(nullable: true),
+                    FirmaAdi = table.Column<string>(nullable: true),
+                    KalkisSaati = table.Column<string>(nullable: true),
+                    Koltuk = table.Column<string>(nullable: true),
+                    YaklasikSeyahatSuresi = table.Column<string>(nullable: true),
+                    VarisNokta = table.Column<string>(nullable: true),
+                    KalkisNokta = table.Column<string>(nullable: true),
+                    Tarih = table.Column<string>(nullable: true),
+                    SeferNo = table.Column<string>(nullable: true),
+                    PnrId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {

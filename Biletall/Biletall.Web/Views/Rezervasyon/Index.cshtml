@@ -1,5 +1,4 @@
 ﻿
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -65,7 +64,7 @@
 </head>
 
 @{ Sefer sefer = (Sefer)ViewData["Seferler"];
-  
+
     string nereden = ViewBag.Nereden;
     string nereye = ViewBag.Nereye;
     int toplamFiyat = ViewBag.ToplamTutar;
@@ -401,82 +400,90 @@
                     </div>
                 </div>
             </div>
-            </div>
         </div>
+    </div>
 
-   
+
 
     <h6><i class="material-icons prefix">transfer_within_a_station </i><i> Yolcu Bilgileri</i></h6>
 
     <div class="master">
         <div class="row">
-            <form class="col s12" id="postForm" asp-action="Index2" method="post">
+            @*onsubmit="return false;"*@
+            <form class="col s12" id="postForm" asp-action="MusteriBilgileri" method="post">
                 <div id="fields">
-                    <input type="hidden" name="SeferTakipNo" id="SeferTakipNo" value="@sefer.SeferTakipNo" />
-                    <input type="hidden" name="Koltuklar" id="Koltuklar" value="@koltuklar" />
-                    <input type="hidden" name="nereden" id="nereden" value="@nereden" />
-                    <input type="hidden" name="nereye" id="nereye" value="@nereye" />
-                    <input type="hidden" name="tarih" id="tarih" value="@tarih" />
-                    <input type="hidden" name="toplamTutar" id="toplamTutar" />
+                    <input type="hidden" name="rezervasyonModel.SeferTakipNo" id="SeferTakipNo" value="@sefer.SeferTakipNo" />
+                    <input type="hidden" name="rezervasyonModel.Koltuklar" id="Koltuklar" value="@koltuklar" />
+                    <input type="hidden" name="rezervasyonModel.Nereden" id="nereden" value="@nereden" />
+                    <input type="hidden" name="rezervasyonModel.Nereye" id="nereye" value="@nereye" />
+                    <input type="hidden" name="rezervasyonModel.Tarih" id="tarih" value="@tarih" />
+                    <input type="hidden" name="rezervasyonModel.toplamTutar" id="toplamTutar" />
+                    <input type="hidden" name="rezervasyonModel.FirmaAdi" id="FirmaAdi" value="@sefer.FirmaAdi" />
+                    <input type="hidden" name="rezervasyonModel.KalkisSaati" id="KalkisSaati" value="@sefer.KalkisSaati" />
+                    <input type="hidden" name="rezervasyonModel.YaklasikSeyahatSuresi" id="YaklasikSeyahatSuresi" value="@sefer.YaklasikSeyahatSuresi" />
+                    <input type="hidden" name="rezervasyonModel.VarisNokta" id="VarisNokta" value="@sefer.VarisNokta" />
+                    <input type="hidden" name="rezervasyonModel.KalkisNokta" id="KalkisNokta" value="@sefer.KalkisNokta" />
                     @foreach (var item in erkekKoltuklar)
                     {
-                <div class="row up">
-                    <div class="input-field col s3">
+                        <div class="row up">
+                            <div class="input-field col s3">
 
-                        <h6>Yolcu(Erkek)</h6>
-                        <h6>Koltuk(@item)</h6>
-                        @{ var ad = "first_name" + item;
-                            var soyad = "last_name" + item;
-                            var tc = "tc" + item; }
-                        <div class="input-field col s3">
-                            <input placeholder="Adınız" id="@ad" name="dynamicField" type="text" class="validate" required>
-                            <label for="@ad">Ad</label>
+                                <h6>Yolcu(Erkek)</h6>
+                                <h6>Koltuk(@item)</h6>
+                                @{
+                                    var ad = "first_name" + item;
+                                    var soyad = "last_name" + item;
+                                    var tc = "tc" + item;
+                                }
+                                <div class="input-field col s3">
+                                    <input placeholder="Adınız" id="@ad" name="dynamicField" type="text" class="validate" required>
+                                    <label for="@ad">Ad</label>
+                                </div>
+                                <div class="input-field col s3">
+                                    <input placeholder="Soyadınız" id="@soyad" type="text" name="dynamicField" class="validate" required>
+                                    <label for="@soyad">Soyad</label>
+                                </div>
+                                <div class="input-field col s3">
+                                    <input type="text" onkeypress="return isNumberKey(event)" name="dynamicField" id="@tc" class="validate" placeholder="TC Kimlik No" maxlength="11" required>
+                                    <label for="tc">TC Kimlik Numarası</label>
+                                    <i class="tc-group" style="font-size: 12px;">(Karayolu Taşıma Yönetmeliğince Gereklidir.)</i>
+                                    <span class="helper-text" data-error="Lütfen TC Kimlik No alanını doğru giriniz." data-success="Başarılı"></span>
+                                </div>
+
+
+                            </div>
+
                         </div>
-                        <div class="input-field col s3">
-                            <input placeholder="Soyadınız" id="@soyad" type="text" name="dynamicField" class="validate" required>
-                            <label for="@soyad">Soyad</label>
-                        </div>
-                        <div class="input-field col s3">
-                            <input type="text" onkeypress="return isNumberKey(event)" name="dynamicField" id="@tc" class="validate" placeholder="TC Kimlik No" maxlength="11" required>
-                            <label for="tc">TC Kimlik Numarası</label>
-                            <i class="tc-group" style="font-size: 12px;">(Karayolu Taşıma Yönetmeliğince Gereklidir.)</i>
-                            <span class="helper-text" data-error="Lütfen TC Kimlik No alanını doğru giriniz." data-success="Başarılı"></span>
-                        </div>
-
-
-                    </div>
-
-                </div>}
+                    }
                     @foreach (var item in kadinKoltuklar)
                     {
-                <div class="row up">
-                    <div class="input-field col s3">
+                        <div class="row up">
+                            <div class="input-field col s3">
 
-                        <h6>Yolcu(Kadin)</h6>
-                        <h6>Koltuk(@item)</h6>
+                                <h6>Yolcu(Kadin)</h6>
+                                <h6>Koltuk(@item)</h6>
 
-                        @{ var ad = "first_name" + item;
-                            var soyad = "last_name" + item;
-                            var tc = "tc" + item; }
-                        <div class="input-field col s3">
-                            <input placeholder="Adınız" id="@ad" name="dynamicField" type="text" class="validate" required>
-                            <label for="@ad">Ad</label>
+                                @{ var ad = "first_name" + item;
+                                    var soyad = "last_name" + item;
+                                    var tc = "tc" + item; }
+                                <div class="input-field col s3">
+                                    <input placeholder="Adınız" id="@ad" name="dynamicField" type="text" class="validate" required>
+                                    <label for="@ad">Ad</label>
+                                </div>
+                                <div class="input-field col s3">
+                                    <input placeholder="Soyadınız" id="@soyad" name="dynamicField" type="text" class="validate" required>
+                                    <label for="@soyad">Soyad</label>
+                                </div>
+                                <div class="input-field col s3">
+                                    <input type="text" onkeypress="return isNumberKey(event)" name="dynamicField" @*name="@tc"*@ id="@tc" class="validate" placeholder="TC Kimlik No" maxlength="11" required>
+                                    <label for="tc">TC Kimlik Numarası</label>
+                                    <i class="tc-group" style="font-size: 12px;">(Karayolu Taşıma Yönetmeliğince Gereklidir.)</i>
+                                    <span class="helper-text" data-error="Lütfen TC Kimlik No alanını doğru giriniz." data-success="Başarılı"></span>
+                                </div>
+                            </div>
+
                         </div>
-                        <div class="input-field col s3">
-                            <input placeholder="Soyadınız" id="@soyad" name="dynamicField" type="text" class="validate" required>
-                            <label for="@soyad">Soyad</label>
-                        </div>
-                        <div class="input-field col s3">
-                            <input type="text" onkeypress="return isNumberKey(event)" name="dynamicField" @*name="@tc"*@ id="@tc" class="validate" placeholder="TC Kimlik No" maxlength="11" required>
-                            <label for="tc">TC Kimlik Numarası</label>
-                            <i class="tc-group" style="font-size: 12px;">(Karayolu Taşıma Yönetmeliğince Gereklidir.)</i>
-                            <span class="helper-text" data-error="Lütfen TC Kimlik No alanını doğru giriniz." data-success="Başarılı"></span>
-                        </div>
-
-
-                    </div>
-
-                </div>}
+                    }
                     <div class="iletisim-back">
                         <div class="row ">
                             <div class="input-field col s4">
@@ -498,6 +505,7 @@
 
                 </div>
                 <div class="form-group col-md-6">
+                    @*onclick="postRezervasyon()"*@
                     <button id="btnAddField" type="submit" class="btn btn-primary">Gönder</button>
                 </div>
             </form>
@@ -510,14 +518,13 @@
 
     <script>
 
-
-            //$(document).ready(function() {
-            //    var $fields = $('#fields');
-            //    $('#btnAddField').click(function(e) {
-            //    e.preventDefault();
-            //        $('<input type="text" name="dynamicField" /><br />').appendTo($fields);
-            //    });
-            //});
+        //$(document).ready(function() {
+        //    var $fields = $('#fields');
+        //    $('#btnAddField').click(function(e) {
+        //    e.preventDefault();
+        //        $('<input type="text" name="dynamicField" /><br />').appendTo($fields);
+        //    });
+        //});
 
         function isNumberKey(evt) {
             var charCode = (evt.which) ? evt.which : event.keyCode;
@@ -525,25 +532,25 @@
                 return false;
             return true;
         }
-       
+
         $("#postForm").submit(function (e) {
             e.preventDefault();
-           // var $fields = $('#fields');
-           // $('#btnAddField').click(function (e) {
-               // e.preventDefault();
-               // $('<input type="text" name="dynamicField" /><br />').appendTo($fields);
-         //   });
+            // var $fields = $('#fields');
+            // $('#btnAddField').click(function (e) {
+            // e.preventDefault();
+            // $('<input type="text" name="dynamicField" /><br />').appendTo($fields);
+            //   });
             $(this).submit();
 
 
             //console.log(e);
             //var rezervasyon = {
 
-            //    Name: $('#first_name').val(),
-            //    Surname: $('#last_name').val(),
-            //    Mail: $('#email').val(),
-            //    PhoneNumber: $('#phone_number').val(),
-            //    Tc: $('#tc').val()
+            //    SeferTakipNo: $('#SeferTakipNo').val(),
+            //    Koltuklar: $('#koltuklar').val(),
+            //    Nereden: $('#nereden').val(),
+            //    Nereye: $('#nereye').val(),
+            //    Tarih: $('#tarih').val()
             //}
             //console.log(rezervasyon);
             //var myJSON = JSON.stringify(rezervasyon);
@@ -561,6 +568,22 @@
             //    }
             //});
         });
+
+        //function postRezervasyon() {
+        //    let rezervasyonModel = {
+        //        SeferTakipNo: $("#SeferTakipNo").val(),
+        //        Nereden: $("#nereden").val()
+        //    };
+        //    $.ajax({
+        //        url: '/Rezervasyon/Index2',
+        //        method: 'post',
+        //        data: { rezervasyonModel: rezervasyonModel, dynamicFields: dynamicFields }
+        //    }).success(function (result) {
+        //        console.log(result);
+        //    });
+
+        //}
+
     </script>
 </body>
 </html>

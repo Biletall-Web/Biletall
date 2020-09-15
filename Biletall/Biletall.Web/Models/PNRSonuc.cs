@@ -10,7 +10,11 @@ namespace Biletall.Web.Models
     {
         public Sefer Sefer { get; set; }
         public List<Rezervasyon> Rezervasyonlar { get; set; }
+     
+        public List<Rezervasyon> PnrNo { get; set; }
         public string Email { get; set; }
         public string Telefon { get; set; }
+       
+
     }
 }

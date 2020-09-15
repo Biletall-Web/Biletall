@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Biletall.Web.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200911105319_NewMigration")]
+    [Migration("20200914233806_NewMigration")]
     partial class NewMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,6 +28,18 @@ namespace Biletall.Web.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("FirmaAdi")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("KalkisNokta")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("KalkisSaati")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Koltuk")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Mail")
                         .HasColumnType("nvarchar(max)");
 
@@ -40,10 +52,25 @@ namespace Biletall.Web.Migrations
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("PnrId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SeferNo")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Surname")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Tarih")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Tc")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("VarisNokta")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("YaklasikSeyahatSuresi")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

@@ -1,0 +1,18 @@
+﻿
+@{
+    ViewData["Title"] = "PnrAra";
+}
+
+
+<div>
+    @using (Html.BeginForm("PnrBul", "Rezervasyon", FormMethod.Get))
+    {
+        <p style="float:right; margin-top:10px; margin:auto">
+            Pnr Numarasına Göre Ara: <input name="pnrNo" type="text" />
+            <input id="ara" type="submit" value="Ara" style="width:70px;" />
+          
+    
+            
+        </p>
+    }
+</div>
